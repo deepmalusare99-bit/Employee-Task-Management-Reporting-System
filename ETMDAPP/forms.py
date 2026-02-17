@@ -8,6 +8,7 @@ from .models import Employee
 
 from django import forms
 from .models import Task, Contact, Department, Employee
+from django.contrib.auth.models import User
 
 class EmployeeForm(forms.ModelForm):
     class Meta:
@@ -38,25 +39,32 @@ class ContactForm(forms.ModelForm):
 
 
 class TaskForm(forms.ModelForm):
-    email = forms.EmailField(required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Search by Email'}))
-    title = forms.CharField(widget=forms.TextInput(
-        attrs={'placeholder': 'Enter task title'}))
-    description = forms.CharField(widget=forms.Textarea(
-        attrs={'placeholder': 'Enter task description'}))
+    title = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'Enter task title'})
+    )
+
+    description = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder': 'Enter task description'})
+    )
+
     assigned_to = forms.ModelChoiceField(
-        queryset=Employee.objects.all(), empty_label="Select Employee")
-    deadline_date = forms.DateField(widget=forms.DateInput(
-        attrs={'placeholder': 'Select deadline date', 'class': 'datepicker'}))
-    deadline_time = forms.TimeField(widget=forms.TimeInput(
-        attrs={'placeholder': 'Select deadline time', 'class': 'form-control timepicker'}))
-    priority = forms.ChoiceField(choices=Task.PRIORITY_CHOICES)
-    category = forms.ChoiceField(choices=Task.CATEGORY_CHOICES)
+        queryset=User.objects.all(),
+        empty_label="Select User"
+    )
+
+    due_date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
 
     class Meta:
         model = Task
-        fields = ['title', 'description', 'assigned_to', 'deadline_date',
-                  'deadline_time', 'email', 'priority', 'category']
+        fields = [
+            'title',
+            'description',
+            'assigned_to',
+            'status',
+            'due_date',
+        ]
 
 
 # forms.py

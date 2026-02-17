@@ -40,6 +40,8 @@ from .models import Employee
 from django.shortcuts import render, redirect
 from .models import Admin
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -448,16 +450,27 @@ def CONTACT(request):
         error_message = "An error occurred while processing the contact form."
         return render(request, "error.html", {'error_message': error_message})
 
+
+@login_required
 def assign_task(request):
     if request.method == 'POST':
-        form = TaskForm(request.POST)
-        print(form)
-        if form.is_valid():
-            form.save()  # Save the form data to the database
-            return redirect('AdminDashboard')  # Redirect to a success page
-    else:
-        form = TaskForm()
-    return render(request, 'assigntask.html', {'form': form})
+        title = request.POST['title']
+        description = request.POST['description']
+        assigned_to = User.objects.get(id=request.POST['employee'])
+        due_date = request.POST['due_date']
+
+        Task.objects.create(
+            title=title,
+            description=description,
+            assigned_to=assigned_to,
+            due_date=due_date,
+            status='Pending'
+        )
+
+        return redirect('AdminDashboard')
+
+    employees = User.objects.filter(is_staff=False)
+    return render(request, 'assign_task.html', {'employees': employees})
 
 
 def task_des(request):
@@ -600,3 +613,4 @@ def EmployeeTask(request):
         # Handle any exceptions
         error_message = "An error occurred while loading the employee tasks."
         return render(request, "error.html", {'error_message': error_message})
+

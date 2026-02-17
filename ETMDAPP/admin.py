@@ -42,8 +42,15 @@ class ContactAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description', 'assigned_to',
-                    'deadline_date', 'deadline_time', 'email', 'priority', 'category']
+    list_display = [
+        'title',
+        'description',
+        'assigned_to',
+        'status',
+        'due_date',
+        'created_at'
+    ]
+
 
 
 @admin.register(FinishedTask)
