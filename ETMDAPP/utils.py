@@ -161,10 +161,10 @@ def generate_task_deadlines_table():
     following_monday = next_monday + datetime.timedelta(weeks=1)
 
     # Filter tasks whose deadline is within the coming next week starting from Monday
-    tasks = Task.objects.filter(deadline_date__gte=next_monday, deadline_date__lt=following_monday)
+    tasks = Task.objects.filter(due_date__gte=next_monday, due_date__lt=following_monday)
     
     # Prepare data for the table
-    deadlines_data = [{'deadline_date': task.deadline_date, 'num_tasks': Task.objects.filter(deadline_date=task.deadline_date).count()} for task in tasks]
+    deadlines_data = [{'due_date': task.due_date, 'num_tasks': Task.objects.filter(due_date=task.due_date).count()} for task in tasks]
 
     return deadlines_data
 
@@ -283,40 +283,40 @@ def generate_completion_rate_by_employee_plot():
     plt.close()
 
 
-def generate_task_distribution_by_category_plot():
-    tasks = Task.objects.all()
-    df_tasks = read_frame(tasks)
-    category_counts = df_tasks['category'].value_counts()
+#def generate_task_distribution_by_category_plot():
+#    tasks = Task.objects.all()
+#    df_tasks = read_frame(tasks)
+#    category_counts = df_tasks['category'].value_counts()
 
     # Define custom colors for each category
-    colors = ['skyblue', 'lightgreen', 'lightcoral', 'orange']
+#    colors = ['skyblue', 'lightgreen', 'lightcoral', 'orange']
 
-    plt.figure(figsize=(10, 6))
-    category_counts.plot(kind='bar', color=colors)
-    plt.title('Task Distribution by Category')
-    plt.xlabel('Category')
-    plt.ylabel('Number of Tasks')
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    plt.savefig('ETMDAPP/static/CHARTS/task_distribution_by_category.png')
-    plt.close()
+#    plt.figure(figsize=(10, 6))
+#    category_counts.plot(kind='bar', color=colors)
+#    plt.title('Task Distribution by Category')
+#    plt.xlabel('Category')
+#    plt.ylabel('Number of Tasks')
+#    plt.xticks(rotation=45)
+#    plt.tight_layout()
+#    plt.savefig('ETMDAPP/static/CHARTS/task_distribution_by_category.png')
+#    plt.close()
 
 
 
-def generate_task_distribution_by_priority_plot():
-    tasks = Task.objects.all()
-    df_tasks = read_frame(tasks)
-    priority_counts = df_tasks['priority'].value_counts()
+#def generate_task_distribution_by_priority_plot():
+#    tasks = Task.objects.all()
+#    df_tasks = read_frame(tasks)
+#    priority_counts = df_tasks['priority'].value_counts()
 
-    plt.figure(figsize=(10, 6))
-    priority_counts.plot(kind='bar', color=['red', 'orange', 'yellow'])
-    plt.title('Task Distribution by Priority')
-    plt.xlabel('Priority')
-    plt.ylabel('Number of Tasks')
-    plt.xticks(rotation=0)
-    plt.tight_layout()
-    plt.savefig('ETMDAPP/static/CHARTS/task_distribution_by_priority.png')
-    plt.close()
+#    plt.figure(figsize=(10, 6))
+#    priority_counts.plot(kind='bar', color=['red', 'orange', 'yellow'])
+#    plt.title('Task Distribution by Priority')
+ #   plt.xlabel('Priority')
+#    plt.ylabel('Number of Tasks')
+#    plt.xticks(rotation=0)
+#    plt.tight_layout()
+#    plt.savefig('ETMDAPP/static/CHARTS/task_distribution_by_priority.png')
+#    plt.close()
 
 # Function to generate task duration distribution histogram
 

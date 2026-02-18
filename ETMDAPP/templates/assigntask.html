@@ -135,7 +135,22 @@ input[type="submit"]:hover {
     <div class="container">
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
+
+            <label>Title</label>
+            <input type="text" name="title" placeholder="Enter task title">
+
+            <label>Description</label>
+            <textarea name="description" placeholder="Enter task description"></textarea>
+
+            <label>Employee</label>
+            <select name="employee">
+                {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Due Date</label>
+            <input type="date" name="due_date">
 
             <input type="submit" value="Assign Task">
         </form>

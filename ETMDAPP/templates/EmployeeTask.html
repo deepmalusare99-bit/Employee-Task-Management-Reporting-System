@@ -66,7 +66,8 @@
                     <div class="task-item">
                         <p style="color:black;"><strong>Task:</strong> {{ task.title }}</p>
                         <p style="color:black;"><strong>Description:</strong> {{ task.description }}</p>
-                        <p style="color:black;"><strong>Deadline:</strong> {{ task.deadline_date }} {{ task.deadline_time }}</p>
+                        <p style="color:black;"><strong>Status:</strong> {{ task.status }}</p>
+                        <p><strong>Due Date:</strong> {{ task.due_date }}</p>
                     </div>
                 {% endfor %}
             {% else %}

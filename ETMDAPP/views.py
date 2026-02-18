@@ -1,3 +1,5 @@
+from django.db.models import Count
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import json
 from django.http import JsonResponse
@@ -10,8 +12,8 @@ from .utils import (
     generate_employee_performance_plot,
     generate_task_description_wordcloud,
     generate_completion_rate_by_employee_plot,
-    generate_task_distribution_by_category_plot,
-    generate_task_distribution_by_priority_plot,
+    #generate_task_distribution_by_category_plot,
+    #generate_task_distribution_by_priority_plot,
     # generate_task_duration_distribution_plot
 )
 from django.contrib.auth import authenticate, login
@@ -102,9 +104,7 @@ def REGIEMP(request):
             # Redirect to the admin dashboard after successful registration
             return redirect("AdminDashboard")
         except Exception as e:
-            # Handle any exception and return an error response
-            error_message = "An error occurred while processing your request."
-            return render(request, "error.html", {'error_message': error_message})
+            return render(request, "error.html", {'error_message': str(e)})
 
     # Render the registration form template for GET requests
     return render(request, "REGIEMP.html", {'departments': departments})
@@ -248,14 +248,14 @@ def EMPDASHBOARD(request):
 
         if email:
             # Filter tasks by assigned_to email
-            tasks = Task.objects.filter(email=email)
+            tasks = Task.objects.filter(assigned_to__email=email)
 
             # Get total number of tasks
             total_tasks = tasks.count()
 
             # Get number of in-progress tasks with high priority
             in_progress_tasks = tasks.filter(
-                priority='High',
+                status='In Progress',
             ).count()
 
             # Get number of completed tasks
@@ -274,7 +274,6 @@ def EMPDASHBOARD(request):
             error_message = "Session data missing. Please log in again."
             return render(request, "error.html", {'error_message': error_message})
     except Exception as e:
-        # Handle other exceptions
         error_message = "An error occurred while processing your request."
         return render(request, "error.html", {'error_message': error_message})
     
@@ -451,8 +450,9 @@ def CONTACT(request):
         return render(request, "error.html", {'error_message': error_message})
 
 
-@login_required
 def assign_task(request):
+    if not request.session.get('admin_email'):
+        return redirect('ADMINLOGIN')
     if request.method == 'POST':
         title = request.POST['title']
         description = request.POST['description']
@@ -469,21 +469,24 @@ def assign_task(request):
 
         return redirect('AdminDashboard')
 
-    employees = User.objects.filter(is_staff=False)
-    return render(request, 'assign_task.html', {'employees': employees})
-
+    employees = Employee.objects.all()
+    return render(request, 'assigntask.html', {'employees': employees})
 
 def task_des(request):
-    # Get employees who have been assigned tasks
-    employees_with_tasks = Employee.objects.filter(
-        task__isnull=False).distinct()
-    return render(request, 'TaskDes.html', {'employees': employees_with_tasks})
+    users_with_tasks = (
+        User.objects
+        .filter(task__isnull=False)
+        .annotate(task_count=Count('task'))
+    )
+    return render(request, 'TaskDes.html', {'employees': users_with_tasks})
 
 def assigned_tasks(request):
-    # Get employees who have been assigned tasks
-    employees_with_tasks = Employee.objects.filter(
-        task__isnull=False).distinct()
-    return render(request, 'taskemployeelist.html', {'employees': employees_with_tasks})
+    users_with_tasks = (
+        User.objects
+        .filter(task__isnull=False)
+        .distinct()
+    )
+    return render(request, 'taskemployeelist.html', {'employees': users_with_tasks})
 
 
 def finished_tasks(request):
@@ -500,8 +503,8 @@ def TaskReport(request):
     generate_employee_performance_plot()
     generate_task_description_wordcloud()
     generate_completion_rate_by_employee_plot()
-    generate_task_distribution_by_category_plot()
-    generate_task_distribution_by_priority_plot()
+    #generate_task_distribution_by_category_plot()
+    #generate_task_distribution_by_priority_plot()
     # generate_task_duration_distribution_plot()    
 
     # Add any additional context data you want to pass to the template
@@ -555,7 +558,7 @@ def TaskDashboard(request):
     email = request.session.get("EmployeeEmail")
 
     # Filter tasks assigned to the employee (using assigned_to relationship)
-    assigned_tasks = Task.objects.filter(email=email)
+    assigned_tasks = Task.objects.filter(assigned_to__email=email)
 
     total_tasks = assigned_tasks.count()
     completed_tasks = FinishedTask.objects.filter(
@@ -585,7 +588,7 @@ def EMPTaskEndDate(request):
         # Check if the 'EmployeeEmail' session variable exists
         email = request.session.get("EmployeeEmail", None)
         if email:
-            tasks = Task.objects.filter(email=email)
+            tasks = Task.objects.filter(assigned_to__email=email)
         else:
             tasks = []
 
@@ -604,7 +607,7 @@ def EmployeeTask(request):
         username = request.session.get("EmployeeUsername", None)
 
         if email:
-            tasks = Task.objects.filter(email=email)
+            tasks = Task.objects.filter(assigned_to__email=email)
         else:
             tasks = []
 
@@ -614,3 +617,14 @@ def EmployeeTask(request):
         error_message = "An error occurred while loading the employee tasks."
         return render(request, "error.html", {'error_message': error_message})
 
+def my_tasks(request):
+    email = request.session.get('EmployeeEmail')
+    tasks = Task.objects.filter(assigned_to__email=email)
+    return render(request, 'my_tasks.html', {'tasks': tasks})
+
+def update_status(request, task_id):
+    task = Task.objects.get(id=task_id)
+    if request.method == 'POST':
+        task.status = request.POST['status']
+        task.save()
+    return redirect('my_tasks')

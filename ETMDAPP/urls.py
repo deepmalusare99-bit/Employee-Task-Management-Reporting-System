@@ -44,5 +44,7 @@ urlpatterns = [
     path('EMPAccount', views.EMPAccount, name='EMPAccount'),
     path('EmployeeTask', views.EmployeeTask, name='EmployeeTask'),
     path('TaskDashboard', views.TaskDashboard, name='TaskDashboard'),
+    path('my-tasks/', views.my_tasks, name='my_tasks'),
+    path('my-tasks/update-status/<int:task_id>/', views.update_status, name='update_status'),
     # Other URL patterns...
 ]
