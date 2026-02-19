@@ -1,4 +1,4 @@
-# Employee Task Management System (ETMS)
+# Task Management System (TMS)
 
 A web-based task management application built with Python and Django. It lets admins assign tasks to employees, track progress, and view performance reports all from one place.
 
