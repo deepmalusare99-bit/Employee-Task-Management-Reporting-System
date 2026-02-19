@@ -55,7 +55,7 @@ def send_email_to_employee(email, new_email):
     Director, ETMD Pvt Ltd
     {from_email}
     """
-    send_mail(subject, message, from_email, [email], fail_silently=False)
+    #send_mail(subject, message, from_email, [email], fail_silently=False)
 
 
 def generate_task_distribution_plot():
