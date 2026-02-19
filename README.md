@@ -221,6 +221,3 @@ docker run -p 8000:8000 your_docker_username/taskmanagementsystem
 
 ---
 
-## License
-
-This project was built as a university project. Feel free to use it as a reference or starting point for your own work.
