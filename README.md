@@ -70,11 +70,11 @@ Managing tasks across a team can get messy quickly. This system gives:
 ## Project Structure
 
 ```
-ETMD/                        # Django project config
+TaskManager/                 # Django project config
 │   settings.py              # Database, email, static files config
 │   urls.py                  # Root URL configuration
 │
-ETMDAPP/                     # Main application
+SystemAPP/                   # Main application
 │   models.py                # All database models
 │   views.py                 # All view functions
 │   urls.py                  # URL patterns
@@ -135,14 +135,14 @@ python manage.py shell
 Then inside the shell:
 
 ```python
-from ETMDAPP.models import Admin
+from SystemAPP.models import Admin
 Admin.objects.create(admin_id='your_admin_id', password='your_password')
 exit()
 ```
 
 ### 6. Configure email (optional)
 
-In `ETMD/settings.py`, set your Gmail credentials:
+In `TaskManager/settings.py`, set your Gmail credentials:
 
 ```python
 EMAIL_HOST = 'smtp.gmail.com'

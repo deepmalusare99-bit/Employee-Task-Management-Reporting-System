@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
                 ('deadline_time', models.TimeField()),
                 ('email', models.EmailField(max_length=254)),
                 ('finished', models.BooleanField(default=False)),
-                ('assigned_to', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='ETMDAPP.employee')),
+                ('assigned_to', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='SystemAPP.employee')),
             ],
         ),
         migrations.CreateModel(

@@ -33,26 +33,26 @@ def send_email_to_employee(email, new_email):
     from_email = settings.EMAIL_HOST_USER
 
     # Construct email subject and message
-    subject = "Welcome to ETMD Pvt Ltd."
+    subject = "Welcome to TaskManager Pvt Ltd."
     message = f"""
     Dear {email},
 
-    I trust this message finds you in good health. It is my distinct pleasure to welcome you to ETMD Pvt Ltd, an esteemed platform dedicated to excellence.
+    I trust this message finds you in good health. It is my distinct pleasure to welcome you to TaskManager Pvt Ltd, an esteemed platform dedicated to excellence.
 
     Your participation is highly valued, and we are delighted to have you as part of our team.
 
     Your new email address for communication is: {new_email}
 
-    ETMD Pvt Ltd, under the leadership of ETMD, Director, is committed to fostering a transformative and enriching experience. We firmly believe that your presence will contribute significantly to the vibrancy of our community.
+    TaskManager Pvt Ltd, under the leadership of TaskManager, Director, is committed to fostering a transformative and enriching experience. We firmly believe that your presence will contribute significantly to the vibrancy of our community.
 
-    For any inquiries or assistance, please do not hesitate to reach out to ETMD directly at {from_email}.
+    For any inquiries or assistance, please do not hesitate to reach out to TaskManager directly at {from_email}.
 
-    We appreciate your consideration of our invitation and eagerly anticipate the prospect of welcoming you into the ETMD Pvt Ltd community.
+    We appreciate your consideration of our invitation and eagerly anticipate the prospect of welcoming you into the TaskManager Pvt Ltd community.
 
     Best regards,
 
-    ETMD
-    Director, ETMD Pvt Ltd
+    TaskManager
+    Director, TaskManager Pvt Ltd
     {from_email}
     """
     #send_mail(subject, message, from_email, [email], fail_silently=False)
@@ -110,7 +110,7 @@ def generate_task_distribution_plot():
     plt.legend(loc='upper right', fontsize=12)
 
     plt.tight_layout()
-    plt.savefig('ETMDAPP/static/CHARTS/task_distribution.png')
+    plt.savefig('SystemAPP/static/CHARTS/task_distribution.png')
     plt.close()
 
 
@@ -146,7 +146,7 @@ def generate_remaining_tasks_plot():
     plt.title('Remaining Tasks', fontsize=16)
 
     # Save the plot
-    plt.savefig('ETMDAPP/static/CHARTS/remaining_tasks.png')
+    plt.savefig('SystemAPP/static/CHARTS/remaining_tasks.png')
     plt.close()
 
 
@@ -187,7 +187,7 @@ def generate_completed_tasks_over_time_plot():
     # Add legend
     plt.legend(['Completed Tasks'], loc='upper right', facecolor='lightgrey')
 
-    plt.savefig('ETMDAPP/static/CHARTS/completed_tasks_over_time.png')
+    plt.savefig('SystemAPP/static/CHARTS/completed_tasks_over_time.png')
     plt.close()
 
 
@@ -232,7 +232,7 @@ def generate_employee_performance_plot():
     plt.tight_layout()
 
     # Save the plot
-    plt.savefig('ETMDAPP/static/CHARTS/employee_performance.png')
+    plt.savefig('SystemAPP/static/CHARTS/employee_performance.png')
     plt.close()
 
 
@@ -250,7 +250,7 @@ def generate_task_description_wordcloud():
     plt.axis('off')
     plt.title('Task Description Word Cloud')
     plt.tight_layout()
-    plt.savefig('ETMDAPP/static/CHARTS/task_description_wordcloud.png')
+    plt.savefig('SystemAPP/static/CHARTS/task_description_wordcloud.png')
     plt.close()
 
 
@@ -279,7 +279,7 @@ def generate_completion_rate_by_employee_plot():
     plt.ylabel('Completion Rate (%)')
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.savefig('ETMDAPP/static/CHARTS/completion_rate_by_employee.png')
+    plt.savefig('SystemAPP/static/CHARTS/completion_rate_by_employee.png')
     plt.close()
 
 
@@ -298,7 +298,7 @@ def generate_completion_rate_by_employee_plot():
 #    plt.ylabel('Number of Tasks')
 #    plt.xticks(rotation=45)
 #    plt.tight_layout()
-#    plt.savefig('ETMDAPP/static/CHARTS/task_distribution_by_category.png')
+#    plt.savefig('SystemAPP/static/CHARTS/task_distribution_by_category.png')
 #    plt.close()
 
 
@@ -315,7 +315,7 @@ def generate_completion_rate_by_employee_plot():
 #    plt.ylabel('Number of Tasks')
 #    plt.xticks(rotation=0)
 #    plt.tight_layout()
-#    plt.savefig('ETMDAPP/static/CHARTS/task_distribution_by_priority.png')
+#    plt.savefig('SystemAPP/static/CHARTS/task_distribution_by_priority.png')
 #    plt.close()
 
 # Function to generate task duration distribution histogram
